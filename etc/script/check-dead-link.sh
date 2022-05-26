@@ -11,13 +11,12 @@ for file in $(find . -name "*.md"); do
 done
 
 if [ -e result.txt ] ; then
+  cat result.txt
   if grep -q "ERROR:" result.txt; then
       echo -e "${YELLOW}=========================> MARKDOWN LINK CHECK RESULT<=========================${NC}"
-      cat result.txt
       printf "\n"
       awk -F ' ' '/links checked/{sum+=$1}END{print "Total "sum" links checked.\n"}' result.txt
       awk -F ' ' '/ERROR/{sum+=$2}END{print "Found "sum " dead links.\n"}' result.txt 
-      
       echo -e "${YELLOW}=========================================================================${NC}"
       exit 2
   else
@@ -26,5 +25,5 @@ if [ -e result.txt ] ; then
       echo -e "${YELLOW}=========================================================================${NC}"
   fi
 else
-  echo -e "${GREEN}All good!${NC}"
+  echo -e "${GREEN}No link need check!${NC}"
 fi
