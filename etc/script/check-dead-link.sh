@@ -6,16 +6,15 @@ NC='\033[0m' # No Color
 GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
 
-set -x
 for file in $(find . -name "*.md"); do
   markdown-link-check -c .github/dead_link_check_config.json -q "$file" >> result.txt 2>&1
 done
-set +x
 
 if [ -e result.txt ] ; then
   if grep -q "ERROR:" result.txt; then
       echo -e "${YELLOW}=========================> MARKDOWN LINK CHECK RESULT<=========================${NC}"
-      
+      cat result.txt
+      printf "\n"
       awk -F ' ' '/links checked/{sum+=$1}END{print "Total "sum" links checked.\n"}' result.txt
       awk -F ' ' '/ERROR/{sum+=$2}END{print "Found "sum " dead links.\n"}' result.txt 
       
