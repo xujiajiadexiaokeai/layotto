@@ -16,11 +16,13 @@ if [ -e result.txt ] ; then
       echo -e "${YELLOW}=========================> MARKDOWN LINK CHECK RESULT<=========================${NC}"
       printf "\n"
       awk -F ' ' '/links checked/{sum+=$1}END{print "Total "sum" links checked.\n"}' result.txt
-      awk -F ' ' '/ERROR/{sum+=$2}END{print "Found "sum " dead links.\n"}' result.txt 
+      awk -F ' ' '/ERROR/{sum+=$2}END{print "[✖] Found "sum " dead links.\n"}' result.txt 
       echo -e "${YELLOW}=========================================================================${NC}"
       exit 2
   else
       echo -e "${YELLOW}=========================> MARKDOWN LINK CHECK RESULT<=========================${NC}"
+      printf "\n"
+      awk -F ' ' '/links checked/{sum+=$1}END{print "Total "sum" links checked.\n"}' result.txt
       echo -e "${GREEN}[✔] All links are good!${NC}"
       echo -e "${YELLOW}=========================================================================${NC}"
   fi
